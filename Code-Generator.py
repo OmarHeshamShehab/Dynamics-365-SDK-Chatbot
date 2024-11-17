@@ -39,10 +39,8 @@ for folder, zip_file_path in zip(folders, zip_files):
 
 # Initialize a Sentence Transformer to create embeddings
 # The model is used to convert text data into numerical embeddings for similarity search.
-# Use GPU if available to speed up the embedding process.
-model = SentenceTransformer(
-    "all-MiniLM-L6-v2", device="cuda" if torch.cuda.is_available() else "cpu"
-)
+# Set to use only CPU.
+model = SentenceTransformer("all-MiniLM-L6-v2", device="cpu")
 
 # Store all file contents and their paths
 file_contents = []
@@ -56,7 +54,7 @@ for sdk_dir in folders:
             file_path = os.path.join(root, file)
             try:
                 # Read the file with UTF-8 encoding, ignoring errors if any
-                with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                with open(file_path, "r", encoding="utf-8-sig", errors="ignore") as f:
                     content = f.read()
                     file_contents.append(content)
                     file_paths.append(file_path)
@@ -66,42 +64,25 @@ for sdk_dir in folders:
 
 # Create embeddings for all contents
 # Convert the contents of all files into embeddings for similarity search.
-# Use GPU for embedding if available.
-embeddings = model.encode(
-    file_contents,
-    convert_to_tensor=True,
-    device="cuda" if torch.cuda.is_available() else "cpu",
-)
+# Set `convert_to_tensor` to False to return embeddings as NumPy arrays.
+embeddings = model.encode(file_contents, convert_to_tensor=False)
 
 # Create a FAISS index
 # FAISS is used to perform similarity search on the embeddings.
 dimension = embeddings.shape[1]  # Get the dimension of the embeddings
 index = faiss.IndexFlatL2(dimension)  # Create a FAISS index using L2 distance
-# If embeddings are tensors, convert them to numpy for FAISS
-index.add(
-    embeddings.cpu().numpy() if isinstance(embeddings, torch.Tensor) else embeddings
-)  # Add the embeddings to the FAISS index
+# Add the embeddings to the FAISS index directly as they are now NumPy arrays.
+index.add(embeddings)
 
 
 # Function to find relevant content based on user query
 def find_relevant_content(user_query):
-    # Create embedding for the user query
-    query_embedding = model.encode(
-        [user_query],
-        convert_to_tensor=True,
-        device="cuda" if torch.cuda.is_available() else "cpu",
-    )
+    # Create embedding for the user query, using NumPy arrays
+    query_embedding = model.encode([user_query], convert_to_tensor=False)
 
     # Search FAISS index for similar content
     # Retrieve the top 5 most similar contents
-    _, indices = index.search(
-        (
-            query_embedding.cpu().numpy()
-            if isinstance(query_embedding, torch.Tensor)
-            else query_embedding
-        ),
-        k=5,
-    )
+    _, indices = index.search(query_embedding, k=5)
 
     # Fetch relevant file contents using the indices from the FAISS search
     relevant_contents = [file_contents[i] for i in indices[0]]
@@ -124,14 +105,18 @@ def generate_answer(user_query):
     try:
         # Use llama3 model for response generation
         result = subprocess.run(
-            ["ollama", "run", "llama3"], input=prompt, text=True, capture_output=True
+            ["ollama", "run", "llama3"],
+            input=prompt.encode("utf-8"),  # Encode input explicitly as utf-8
+            capture_output=True,
         )
         if result.returncode == 0:
             # Return the generated response if the subprocess was successful
-            return result.stdout.strip()
+            return result.stdout.decode(
+                "utf-8"
+            ).strip()  # Decode output explicitly as utf-8
         else:
             # Return an error message if the subprocess failed
-            return f"Error generating response: {result.stderr.strip()}"
+            return f"Error generating response: {result.stderr.decode('utf-8').strip()}"
     except Exception as e:
         # Return an error message if there was an exception
         return f"Error while trying to generate response: {str(e)}"
