@@ -9,15 +9,15 @@ from sentence_transformers import SentenceTransformer
 # Define paths for both folders
 # These are the paths where the SDKs are stored after extraction.
 folders = [
-    "E:/Projects/CommerceSDk_Code_Generator/Dynamics365Commerce.InStore-release-952",
-    "E:/Projects/CommerceSDk_Code_Generator/Dynamics365Commerce.ScaleUnit-release-952",
+    "E:/Projects/Dynamics-365-SDK-Chatbot/Dynamics365Commerce.InStore-release-9.52",
+    "E:/Projects/Dynamics-365-SDK-Chatbot/Dynamics365Commerce.ScaleUnit-release-9.52",
 ]
 
 # Define paths for the zip files that contain the SDKs
 # These are the zip files that will be extracted if the folders do not exist.
 zip_files = [
-    "E:/Projects/CommerceSDk_Code_Generator/Dynamics365Commerce.InStore-release-952.zip",
-    "E:/Projects/CommerceSDk_Code_Generator/Dynamics365Commerce.ScaleUnit-release-952.zip",
+    "E:/Projects/Dynamics-365-SDK-Chatbot/Dynamics365Commerce.InStore-release-9.52.zip",
+    "E:/Projects/Dynamics-365-SDK-Chatbot/Dynamics365Commerce.ScaleUnit-release-9.52.zip",
 ]
 
 # Check if the folders exist, if not, extract the respective zip files

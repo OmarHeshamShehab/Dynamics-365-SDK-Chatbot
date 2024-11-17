@@ -15,8 +15,8 @@ This project contains resources for developing a chatbot for Dynamics 365 SDK. I
 
   The script helps automate repetitive coding tasks by using templates, which can be especially useful when dealing with various Dynamics 365 SDK components.
 
-- **Dynamics365Commerce.InStore-release-9.52.zip**: Contains resources or code related to the Dynamics 365 Commerce InStore module (version 9.52). This module likely provides in-store capabilities for the chatbot, such as integration with point-of-sale systems or inventory management.
-- **Dynamics365Commerce.ScaleUnit-release-9.52.zip**: Contains resources or code related to the Dynamics 365 Commerce ScaleUnit module (version 9.52). This module helps in scaling and managing workloads, ensuring that the chatbot operates efficiently even under high demand by balancing the processing load.
+- **Dynamics365Commerce.InStore-release-9.52.zip**: Contains resources or code related to the Dynamics 365 Commerce InStore module (version 9.52) download latest version from https://github.com/microsoft/Dynamics365Commerce.InStore. This module likely provides in-store capabilities for the chatbot, such as integration with point-of-sale systems or inventory management.
+- **Dynamics365Commerce.ScaleUnit-release-9.52.zip**: Contains resources or code related to the Dynamics 365 Commerce ScaleUnit module (version 9.52) download latest version from https://github.com/microsoft/Dynamics365Commerce.ScaleUnit. This module helps in scaling and managing workloads, ensuring that the chatbot operates efficiently even under high demand by balancing the processing load.
 - **README.md**: This file, providing an overview of the project.
 - **requirments.txt.txt**: Lists the dependencies required to run the project. This file should be renamed to `requirements.txt` to follow standard naming conventions.
 
