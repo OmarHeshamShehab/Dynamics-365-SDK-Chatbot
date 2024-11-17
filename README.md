@@ -51,7 +51,7 @@ To get started with the project, follow these steps:
    Use the `Code-Generator.py` script to generate necessary code components:
 
    ```bash
-   python Code-Generator.py
+   streamlit run Code-Generator.py
    ```
 
    This script will generate code based on pre-defined templates, which can be modified as per the requirements of the specific Dynamics 365 modules you are working on.
@@ -62,11 +62,3 @@ To get started with the project, follow these steps:
 - **Commerce Modules**: Zipped files related to Dynamics 365 Commerce functionalities.
 - **Configuration**: `.gitignore` and `requirements` files for project setup.
 
-## Contributing
-If you'd like to contribute, please fork the repository and use a feature branch. Pull requests are warmly welcome. Ensure that any new features or bug fixes include updated documentation.
-
-## License
-This project is licensed under the MIT License. See `LICENSE` for more information.
-
-## Contact
-For any questions or issues, please contact the project maintainer.
