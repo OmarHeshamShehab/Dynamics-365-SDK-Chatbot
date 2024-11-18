@@ -11,6 +11,7 @@ from sentence_transformers import SentenceTransformer
 folders = [
     "E:/Projects/Dynamics-365-SDK-Chatbot/Dynamics365Commerce.InStore-release-9.52",
     "E:/Projects/Dynamics-365-SDK-Chatbot/Dynamics365Commerce.ScaleUnit-release-9.52",
+    #  "E:/Projects/Dynamics-365-SDK-Chatbot/Dynamics365Commerce.Solutions-release-9.52",
 ]
 
 # Define paths for the zip files that contain the SDKs
@@ -18,6 +19,7 @@ folders = [
 zip_files = [
     "E:/Projects/Dynamics-365-SDK-Chatbot/Dynamics365Commerce.InStore-release-9.52.zip",
     "E:/Projects/Dynamics-365-SDK-Chatbot/Dynamics365Commerce.ScaleUnit-release-9.52.zip",
+    # "E:/Projects/Dynamics-365-SDK-Chatbot/Dynamics365Commerce.Solutions-release-9.52.zip",
 ]
 
 # Check if the folders exist, if not, extract the respective zip files
@@ -123,21 +125,24 @@ def generate_answer(user_query):
 
 
 # Streamlit UI for Chatbot
-# Create a simple UI for the chatbot using Streamlit
+# Initialize session state for button_disabled
+if "button_disabled" not in st.session_state:
+    st.session_state.button_disabled = False
+
+# Title for the chatbot
 st.title("Dynamics 365 SDK Chatbot")
 
 # Input text box for user question
 user_question = st.text_input("Ask a question about Dynamics 365 SDK:")
 
 # Button to get the answer
-if st.button("Get Answer"):
+if st.button("Get Answer", disabled=st.session_state.button_disabled):
     if user_question:
-        # Show a spinner while generating the answer
+        st.session_state.button_disabled = True  # Disable the button
         with st.spinner("Generating answer..."):
             answer = generate_answer(user_question)
-        # Display the answer
         st.write("**Answer:**")
         st.write(answer)
+        st.session_state.button_disabled = False  # Re-enable the button
     else:
-        # Prompt user to enter a question if the text box is empty
         st.write("Please enter a question.")
